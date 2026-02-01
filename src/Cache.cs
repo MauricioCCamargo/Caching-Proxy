@@ -5,20 +5,20 @@ namespace src
     public class Cache
     {
 
-        // public dto.CacheDto GetSetCache(string content, string url, string contentType)
-        // {
-        //     var cacheData = GetCache(url);
-        //     if (cacheData == null)
-        //     {
-        //         SetCache(content, url, contentType);
-        //         return new dto.CacheDto(content, contentType, "MISS");
-        //     }
-        //     return cacheData;
-        // }
+        private string _dbPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + @"/cache-proxy/db/";
+        private string _dbName = "cache.db";
+
+        public Cache()
+        {
+            if (!Directory.Exists(_dbPath))
+            {
+                Directory.CreateDirectory(_dbPath);
+            }
+        }
 
         public void ClearCache()
         {
-            using (var db = new LiteDatabase(@"db/cache.db"))
+            using (var db = new LiteDatabase(_dbPath + _dbName))
             {
                 var col = db.DropCollection("requests");
             }
@@ -26,7 +26,7 @@ namespace src
 
         public dto.CacheDto? GetCache(string url)
         {
-            using (var db = new LiteDatabase(@"db/cache.db"))
+            using (var db = new LiteDatabase(_dbPath + _dbName))
             {
                 var col = db.GetCollection<src.Model.ResponseModel>("requests");
 
@@ -43,7 +43,7 @@ namespace src
 
         public dto.CacheDto SetCache(string content, string url, string contentType)
         {
-            using (var db = new LiteDatabase(@"db/cache.db"))
+            using (var db = new LiteDatabase(_dbPath + _dbName))
             {
                 var col = db.GetCollection<src.Model.ResponseModel>("requests");
 

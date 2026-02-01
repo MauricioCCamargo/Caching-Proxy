@@ -8,7 +8,7 @@ The tool accepts the following named args
 if unset, assumes 5050
 
 --origin <address> 
-Address to where the requests will be redirected
+address to where the requests will be redirected
 if unset will assume https://dummyjson.com/
 
 --clear-cache
